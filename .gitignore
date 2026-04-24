@@ -2,3 +2,4 @@ sprites/keyboard/processed/**
 sprites/keyboard/raw/**
 myenv
 my_custom_models
+*.png

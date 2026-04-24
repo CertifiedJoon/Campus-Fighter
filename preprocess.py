@@ -12,23 +12,20 @@ from rembg import remove, new_session
 from PIL import Image
 
 # Configuration
-print("input move name (should align with input folder name)")
-move_name = input()
-OUTPUT_FOLDER = "GameDesign/keyboard/processed/" + move_name
-INPUT_FOLDER = "GameDesign/keyboard/raw/" + move_name
-TARGET_HEIGHT = 200  # Standard fighting game sprite height, adjust as needed
+### 여기에 move 이름 넣기! move이름은 folder이름과 같아야함.
+moves = ["fall"]
 
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+TARGET_HEIGHT = 200  # Standard fighting game sprite height, adjust as needed
 model_session = new_session("birefnet-general")
 
 
-def process_images():
-    for filename in os.listdir(INPUT_FOLDER):
+def process_images(input_folder, output_folder):
+    for filename in os.listdir(input_folder):
         if filename.lower().endswith((".png", ".jpg", ".jpeg")):
-            input_path = os.path.join(INPUT_FOLDER, filename)
+            input_path = os.path.join(input_folder, filename)
             # Save as PNG to preserve the transparent background
             output_path = os.path.join(
-                OUTPUT_FOLDER, f"{os.path.splitext(filename)[0]}.png"
+                output_folder, f"{os.path.splitext(filename)[0]}.png"
             )
             if os.path.exists(output_path):
                 pass
@@ -55,5 +52,9 @@ def process_images():
 
 if __name__ == "__main__":
     print("Starting batch processing...")
-    process_images()
+    for move_name in moves:
+        output_folder = "sprites/keyboard/processed/" + move_name
+        input_folder = "sprites/keyboard/raw/" + move_name
+        os.makedirs(output_folder, exist_ok=True)
+        process_images(input_folder, output_folder)
     print("Finished processing all images.")
